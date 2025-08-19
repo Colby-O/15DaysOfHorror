@@ -1,74 +1,90 @@
+using DOH.MonoSystem;
 using PlazmaGames.Animation;
 using PlazmaGames.Audio;
 using PlazmaGames.Core;
 using PlazmaGames.UI;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DOHGameManager : GameManager
+namespace DOH
 {
-    [SerializeField] GameObject _monoSystemHolder;
-
-    [Header("MonoSystems")]
-    [SerializeField] private UIMonoSystem _uiSystem;
-    [SerializeField] private AnimationMonoSystem _animSystem;
-    [SerializeField] private AudioMonoSystem _audioSystem;
-
-    private void AttachMonoSystems()
+    public class DOHGameManager : GameManager
     {
-        AddMonoSystem<UIMonoSystem, IUIMonoSystem>(_uiSystem);
-        AddMonoSystem<AnimationMonoSystem, IAnimationMonoSystem>(_animSystem);
-        AddMonoSystem<AudioMonoSystem, IAudioMonoSystem>(_audioSystem);
-    }
+        [SerializeField] GameObject _monoSystemHolder;
 
-    public override string GetApplicationName()
-    {
-        return nameof(DOHGameManager);
-    }
+        [Header("MonoSystems")]
+        [SerializeField] private UIMonoSystem _uiSystem;
+        [SerializeField] private AnimationMonoSystem _animSystem;
+        [SerializeField] private AudioMonoSystem _audioSystem;
+        [SerializeField] private InputMonoSystem _inputSystem;
 
-    public override string GetApplicationVersion()
-    {
-        return "v0.0.1";
-    }
+        public static void HideCusor()
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
 
-    protected override void OnInitalized()
-    {
-        AttachMonoSystems();
+        public static void ShowCusor()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
-        _monoSystemHolder.SetActive(true);
-    }
+        private void AttachMonoSystems()
+        {
+            AddMonoSystem<UIMonoSystem, IUIMonoSystem>(_uiSystem);
+            AddMonoSystem<AnimationMonoSystem, IAnimationMonoSystem>(_animSystem);
+            AddMonoSystem<AudioMonoSystem, IAudioMonoSystem>(_audioSystem);
+            AddMonoSystem<InputMonoSystem, IInputMonoSystem>(_inputSystem);
+        }
 
-    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
-    {
+        public override string GetApplicationName()
+        {
+            return nameof(DOHGameManager);
+        }
 
-    }
+        public override string GetApplicationVersion()
+        {
+            return "v0.0.1";
+        }
 
-    private void OnSceneUnload(Scene scene)
-    {
-        RemoveAllEventListeners();
-    }
+        protected override void OnInitalized()
+        {
+            AttachMonoSystems();
 
-    private void Awake()
-    {
-        Application.runInBackground = true;
-    }
+            _monoSystemHolder.SetActive(true);
+        }
 
-    private void Start()
-    {
+        private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+        {
 
-    }
+        }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoad;
-        SceneManager.sceneUnloaded += OnSceneUnload;
-    }
+        private void OnSceneUnload(Scene scene)
+        {
+            RemoveAllEventListeners();
+        }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoad;
-        SceneManager.sceneUnloaded -= OnSceneUnload;
+        private void Awake()
+        {
+            Application.runInBackground = true;
+        }
+
+        private void Start()
+        {
+
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoad;
+            SceneManager.sceneUnloaded += OnSceneUnload;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoad;
+            SceneManager.sceneUnloaded -= OnSceneUnload;
+        }
     }
 }
