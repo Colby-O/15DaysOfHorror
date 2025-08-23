@@ -8,6 +8,7 @@ namespace DOH.MonoSystem
     {
         public UnityEvent JumpAction { get; }
         public UnityEvent InteractCallback { get; }
+        public UnityEvent RCallback { get; }
         public Vector2 RawMovement { get; }
         public Vector2 RawLook { get; }
     }

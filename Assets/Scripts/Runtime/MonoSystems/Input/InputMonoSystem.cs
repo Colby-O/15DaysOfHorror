@@ -13,8 +13,11 @@ namespace DOH.MonoSystem
         private InputAction _lookAction;
         private InputAction _jumpAction;
         private InputAction _interactAction;
+        private InputAction _rAction;
+
         public UnityEvent JumpAction { get; private set; }
         public UnityEvent InteractCallback { get; private set; }
+        public UnityEvent RCallback { get; private set; }
 
         public Vector2 RawMovement { get; private set; }
         public Vector2 RawLook { get; private set; }
@@ -34,6 +37,11 @@ namespace DOH.MonoSystem
             InteractCallback.Invoke();
         }
 
+        private void HandleRAction(InputAction.CallbackContext e)
+        {
+            RCallback.Invoke();
+        }
+
         private void HandleJumpAction(InputAction.CallbackContext e)
         {
             JumpAction.Invoke();
@@ -45,16 +53,19 @@ namespace DOH.MonoSystem
 
             JumpAction       = new UnityEvent();
             InteractCallback = new UnityEvent();
+            RCallback = new UnityEvent();
 
             _moveAction       = _input.actions["Move"];
             _lookAction       = _input.actions["Look"];
             _jumpAction       = _input.actions["Jump"];
             _interactAction   = _input.actions["Interact"];
+            _rAction = _input.actions["R"];
 
             _moveAction.performed       += HandleMoveAction;
             _lookAction.performed       += HandleLookAction;
             _jumpAction.performed       += HandleJumpAction;
             _interactAction.performed   += HandleInteractAction;
+            _rAction.performed += HandleRAction;
         }
 
         private void OnDestroy()
@@ -63,6 +74,7 @@ namespace DOH.MonoSystem
             _lookAction.performed       -= HandleLookAction;
             _jumpAction.performed       -= HandleJumpAction;
             _interactAction.performed   -= HandleInteractAction;
+            _rAction.performed -= HandleRAction;
         }
     }
 }

@@ -1,16 +1,19 @@
 using DOH.MonoSystem;
 using PlazmaGames.Attribute;
 using PlazmaGames.Core;
+using PlazmaGames.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
-namespace DOH.Player
+namespace DOH
 {
     public class Interactor : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Transform _head;
         private IInputMonoSystem _input;
+        [SerializeField] private Transform _head;
 
         [Header("Settings")]
         [SerializeField] private Transform _interactionPoint;
@@ -18,15 +21,12 @@ namespace DOH.Player
         [SerializeField] private float _interactionRadius = 0.1f;
         [SerializeField] private float _spehreCastRadius = 0.1f;
 
-        [Header("Debugging")]
-        [SerializeField, ReadOnly] private  List<IInteractable> _lastListOfPossibleInteractable;
-        [SerializeField, ReadOnly] private bool _isInteracting = false;
-        [SerializeField, ReadOnly] private IInteractable _currentInteractable;
+        private InputAction _interactAction;
+        private InputAction _pickupAction;
 
-        public void EndInteraction()
-        {
-            _currentInteractable?.EndInteraction();
-        }
+        [SerializeField, ReadOnly] List<IInteractable> _lastListOfPossibleInteractable;
+
+        private string _hint;
 
         private void StartInteraction(IInteractable interactable)
         {
@@ -35,11 +35,7 @@ namespace DOH.Player
 
         private void CheckForInteractionInteract()
         {
-            if (_isInteracting)
-            {
-                EndInteraction();
-                return;
-            }
+            if (DOHGameManager.Inspector.IsInspecting()) return;
 
             if
             (
@@ -54,7 +50,7 @@ namespace DOH.Player
 
         private void CheckForPossibleInteractionInteract()
         {
-            if (_isInteracting) return;
+            if (DOHGameManager.Inspector.IsInspecting()) return;
 
             List<IInteractable> possibleInteractable = new List<IInteractable>();
 
@@ -70,7 +66,7 @@ namespace DOH.Player
                     if (!interactable.IsInteractable()) return;
                     possibleInteractable.Add(interactable);
                     if (!_lastListOfPossibleInteractable.Contains(interactable)) interactable.AddOutline();
-                    //if (interactable.GetHint() != string.Empty) GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint(interactable.GetHint());
+                    if (interactable.GetHint() != string.Empty) GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().SetHint(interactable.GetHint());
                 }
             }
 

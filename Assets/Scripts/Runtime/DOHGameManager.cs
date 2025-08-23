@@ -17,17 +17,22 @@ namespace DOH
         [SerializeField] private AnimationMonoSystem _animSystem;
         [SerializeField] private AudioMonoSystem _audioSystem;
         [SerializeField] private InputMonoSystem _inputSystem;
+        [SerializeField] private DialogueMonoSystem _dialogueSystem;
+
+        public static bool IsPaused { get; set; }
+        public static Inspector Inspector { get; set; }
+        public static PickupManager PickupManager { get; set; }
 
         public static void HideCusor()
         {
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         public static void ShowCusor()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
 
         private void AttachMonoSystems()
@@ -36,6 +41,7 @@ namespace DOH
             AddMonoSystem<AnimationMonoSystem, IAnimationMonoSystem>(_animSystem);
             AddMonoSystem<AudioMonoSystem, IAudioMonoSystem>(_audioSystem);
             AddMonoSystem<InputMonoSystem, IInputMonoSystem>(_inputSystem);
+            AddMonoSystem<DialogueMonoSystem, IDialogueMonoSystem>(_dialogueSystem);
         }
 
         public override string GetApplicationName()
@@ -72,7 +78,8 @@ namespace DOH
 
         private void Start()
         {
-
+            Inspector = FindAnyObjectByType<Inspector>();
+            PickupManager = FindAnyObjectByType<PickupManager>();
         }
 
         private void OnEnable()

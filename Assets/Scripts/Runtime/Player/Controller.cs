@@ -37,6 +37,8 @@ namespace DOH.Player
 
         private Vector3 _groundPoint;
 
+        public bool LockMovement { get; set; }
+
         private bool IsGrounded()
         {
             bool isGrounded = Physics.CheckSphere(_feet.position, _groundedCheckRadius, ~_groundedCheckIgnoreLayer);
@@ -45,6 +47,7 @@ namespace DOH.Player
 
         private void Jump()
         {
+            if (DOHGameManager.IsPaused || GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().IsDialoguePlaying()) return;
             if (IsGrounded()) _velY = _settings.JumpForce;
         }
 
@@ -98,6 +101,7 @@ namespace DOH.Player
 
         private void Update()
         {
+            if (DOHGameManager.IsPaused || LockMovement) return;
             ProcessLook();
             ProcessMovement();
             ProcessGravity();

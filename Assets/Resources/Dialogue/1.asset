@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06264d2f54d6c884eb47ac2cbc4ec893, type: 3}
+  m_Name: 1
+  m_EditorClassIdentifier: Assembly-CSharp::DOH.DialogueSO
+  _dialogues:
+  - avatarName: Stranger
+    msg:
+      list:
+      - Key: 0
+        Value: "The hand that reaches out\u2026 will it save, or will it beg to be
+          saved?"
+      keyCollision: 0
+    dialogueEvent: {fileID: 11400000, guid: 62e698ba0039d9140aea50bbebb70e7e, type: 2}
+    waitDelayOverride: 0
+    typeSpeedOverride: 0
