@@ -9,6 +9,7 @@ namespace DOH
         [SerializeField] private string _hint;
         [SerializeField] private Items _picture;
         [SerializeField] private Sprite _sprite;
+        [SerializeField] private Sprite _extra;
         [SerializeField] private Items _requiredItem;
         [SerializeField] private Items _requiredItem2;
         public void AddOutline()
@@ -29,7 +30,7 @@ namespace DOH
         public bool Interact(Interactor interactor)
         {
             DOHGameManager.PickupManager.GiveItem(_picture);
-            GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().ShowImage(_sprite);
+            GameManager.GetMonoSystem<IUIMonoSystem>().GetView<GameView>().ShowImage(_sprite, _extra);
             return true;
         }
 

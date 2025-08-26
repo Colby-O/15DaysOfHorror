@@ -66,7 +66,7 @@ namespace DOH
             _isOpen = true;
             _inProgress = true;
             float start = CurrentAngle();
-            float target = ((_directionOverride == 0 && Vector3.Dot(-_center.forward, (_center.position - from.position).normalized) < 0) || _directionOverride < 0) ? -90 : 90;
+            float target = ((_directionOverride == 0 && Vector3.Dot(_center.forward, (_center.position - from.position).normalized) < 0) || _directionOverride < 0) ? -90 : 90;
             GameManager.GetMonoSystem<IAnimationMonoSystem>().RequestAnimation(
                 this,
                 _openSpeed,

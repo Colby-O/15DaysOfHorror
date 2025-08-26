@@ -37,6 +37,7 @@ namespace DOH
 
         [Header("Picture")]
         [SerializeField] private Image _image;
+        [SerializeField] private Sprite _extra;
 
         [SerializeField, ReadOnly] private bool _isWriting = false;
         [SerializeField, ReadOnly] private bool _isWritingDialogue = false;
@@ -216,8 +217,9 @@ namespace DOH
             _readHolder.SetActive(false);
         }
 
-        public void ShowImage(Sprite sprite)
+        public void ShowImage(Sprite sprite, Sprite extra = null)
         {
+            _extra = extra;
             _image.gameObject.SetActive(true);
             _image.sprite = sprite;
             _showingImage = true;
@@ -232,6 +234,8 @@ namespace DOH
             _showingImage = false;
             HideHint();
             DOHGameManager.IsPaused= false;
+
+            if (_extra) ShowImage(_extra, null);
 
             if (DOHGameManager.PickupManager.HasItem(Items.Pic6))
             {
